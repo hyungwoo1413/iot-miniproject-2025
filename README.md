@@ -18,7 +18,7 @@
 
 ##### 작업 개요
 (전체 구조도)
-<img src="./image/1.png" width="600">
+<img src="./image/mp0001.png" width="600">
 
 
 - IoT 디바이스 : C# 시뮬레이터로 대체, MQTT Publish 병행
@@ -27,7 +27,7 @@
 - 공정관리 시스템 : WPF 공정관리 모니터링 및 계획, 리포트
 
 (ERD)
-<img src="./image/2.png" width="600">
+<img src="./image/mp0002.png" width="600">
 
 ##### 양품/불량품 선별용 IoT 센서장비
 - [컬러센서](https://www.devicemart.co.kr/goods/view?no=1066926) : 색상으로 선별, 상대적으로 저렴하고 간단한 색상만으로 선별이 필요할 때 사용
