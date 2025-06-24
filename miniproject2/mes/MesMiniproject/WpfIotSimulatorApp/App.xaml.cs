@@ -1,8 +1,8 @@
 ﻿using System.Windows;
-using WpfIotSimulatorApp.Views;
-using WpfIotSimulatorApp.ViewModels;
+using WpfIoTSimulatorApp.Views;
+using WpfIoTSimulatorApp.ViewModels;
 
-namespace WpfIotSimulatorApp
+namespace WpfIoTSimulatorApp
 {
     /// <summary>
     /// Interaction logic for App.xaml
@@ -12,14 +12,15 @@ namespace WpfIotSimulatorApp
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             var viewModel = new MainViewModel();
-            var view = new MainView
-            {
+            var view = new MainView { 
                 DataContext = viewModel,
             };
-
-            viewModel.StartHmiRequested += view.StartHmiAni;
+            
+            viewModel.StartHmiRequested += view.StartHmiAni;  // ViewModel이벤트와 View애니메이션 메서드 연결
             viewModel.StartSensorCheckRequested += view.StartSensorCheck;
+
             view.ShowDialog();
         }
     }
+
 }

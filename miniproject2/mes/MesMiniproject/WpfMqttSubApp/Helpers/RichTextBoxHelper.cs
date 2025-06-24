@@ -4,8 +4,8 @@ using System.Windows;
 
 namespace WpfMqttSubApp.Helpers
 {
-    // RichTextBox를 MVVM에서 데이터를 바인딩하려면 RichTextBoxHelper 클래스의 BindableDocument 속성을
-    // 추가적으로 만들어야만 사용할 수 있다. 추후 분석 필요
+    // RichTextBox를 MVVM에서 데이터를 바인딩하려면 RichTextBoxHelper 클래스의 BindableDocument 속성을 
+    // 추가적으로 만들어야만 사용할 수 있음. 추후분석 필요
     public static class RichTextBoxHelper
     {
         // 바인딩할 문자열 프로퍼티, BindableDocument
@@ -16,13 +16,13 @@ namespace WpfMqttSubApp.Helpers
                 typeof(RichTextBoxHelper),
                 new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnBindableDocumentChanged));
 
-        // 속성 Get 처리
+        // 속성 Get처리
         public static string GetBindableDocument(DependencyObject obj)
         {
             return (string)obj.GetValue(BindableDocumentProperty);
         }
 
-        // 속성 Set 처리
+        // 속성 Set처리
         public static void SetBindableDocument(DependencyObject obj, string value)
         {
             obj.SetValue(BindableDocumentProperty, value);
