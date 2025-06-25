@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace WpfMrpSimulatorApp.Models;
 
-public partial class Schedule
+public partial class ScheduleNew
 {
     /// <summary>
     /// 공정계획 순번(자동증가)
@@ -14,6 +14,9 @@ public partial class Schedule
     /// 공장코드
     /// </summary>
     public string PlantCode { get; set; } = null!;
+
+    // 데이터그리드에 표현하려면 새로운 속성이 필요!!
+    public string PlantName { get; set; }
 
     /// <summary>
     /// 공정계획일
@@ -40,6 +43,8 @@ public partial class Schedule
     /// </summary>
     public string? SchFacilityId { get; set; }
 
+    public string? SchFacilityName { get; set; }
+
     /// <summary>
     /// 계획목표수량
     /// </summary>
@@ -54,6 +59,4 @@ public partial class Schedule
     /// 수정일
     /// </summary>
     public DateTime? ModDt { get; set; }
-
-    public virtual ICollection<Process> Processes { get; set; } = new List<Process>();
 }

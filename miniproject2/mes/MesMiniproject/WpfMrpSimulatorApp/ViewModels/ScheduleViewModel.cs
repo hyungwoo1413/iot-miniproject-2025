@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MahApps.Metro.Controls.Dialogs;
+using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -22,8 +23,8 @@ namespace WpfMrpSimulatorApp.ViewModels
         private DateTime? _regDt;
         private DateTime? _modDt;
 
-        private List<Schedule> _schedules;
-        private Schedule _selectedSchedule;
+        private ObservableCollection<ScheduleNew> _schedules;
+        private ScheduleNew _selectedSchedule;
         private bool _isUpdate;
 
         private bool _canSave;
@@ -52,38 +53,35 @@ namespace WpfMrpSimulatorApp.ViewModels
         }
 
         // View와 연동될 데이터/컬렉션
-        public List<Schedule> Schedules
+        public ObservableCollection<ScheduleNew> Schedules
         {
             get => _schedules;
             set => SetProperty(ref _schedules, value);
         }
 
-        public Schedule SelectedSchedule
+        public ScheduleNew SelectedSchedule
         {
             get => _selectedSchedule;
-            set
-            {
+            set { 
                 SetProperty(ref _selectedSchedule, value);
                 // 최초에 BasicCode에 값이 있는 상태만 수정상태
                 if (_selectedSchedule != null)  // 삭제 후에는 _selectedSetting자체가 null이 됨
                 {
-                    //    if (_selectedSchedule.SchIdx != null)  // NullReferenceException 발생 가능
-                    //    {
-                    //        CanSave = true;
-                    //        CanRemove = true;
-                    //    }
+                    //if (_selectedSchedule.SchIdx != null)  // NullReferenceException 발생 가능
+                    //{
+                    //    CanSave = true;
+                    //    CanRemove = true;
+                    //}
                 }
             }
         }
 
-        public DateTime? RegDt
-        {
+        public DateTime? RegDt {
             get => _regDt;
             set => SetProperty(ref _regDt, value);
         }
 
-        public DateTime? ModDt
-        {
+        public DateTime? ModDt {
             get => _modDt;
             set => SetProperty(ref _modDt, value);
         }
@@ -99,14 +97,43 @@ namespace WpfMrpSimulatorApp.ViewModels
             IsUpdate = true;
 
             // 최초에는 저장버튼, 삭제버튼이 비활성화 
-            CanSave = CanRemove = false;
+            CanSave = CanRemove = false;            
         }
 
         private async Task LoadGridFromDb()
         {
             try
             {
-                Schedules = dbContext.Schedules.ToList();
+                using (var db = new IoTDbContext())
+                {
+                    var results = db.Schedules
+                                    .Join(db.Settings,
+                                        sch => sch.PlantCode,
+                                        setting => setting.BasicCode,
+                                        (sch, setting1) => new { sch, setting1 })
+                                    .Join(db.Settings,
+                                          temp => temp.sch.SchFacilityId,
+                                          setting2 => setting2.BasicCode,
+                                          (temp, setting2) => new ScheduleNew
+                                          {
+                                            SchIdx = temp.sch.SchIdx,
+                                            PlantCode = temp.sch.PlantCode,
+                                            PlantName = temp.setting1.CodeName,  // 첫번째 조인에서 만든 값
+                                            SchDate = temp.sch.SchDate,
+                                            LoadTime = temp.sch.LoadTime,
+                                            SchStartTime = temp.sch.SchStartTime,
+                                            SchEndTime = temp.sch.SchEndTime,
+                                            SchFacilityId = temp.sch.SchFacilityId,
+                                            SchFacilityName = setting2.CodeName,  // 두번째 조인에서 만든 값
+                                            SchAmount = temp.sch.SchAmount,
+                                            RegDt = temp.sch.RegDt,
+                                            ModDt = temp.sch.ModDt,
+                                          }
+                                    ).ToList();
+
+                    ObservableCollection<ScheduleNew> schedules = new ObservableCollection<ScheduleNew>(results);
+                    Schedules = schedules;
+                }                
             }
             catch (Exception ex)
             {
@@ -116,12 +143,9 @@ namespace WpfMrpSimulatorApp.ViewModels
 
         private void InitVariable()
         {
-            SelectedSchedule = new Schedule();
+            SelectedSchedule = new ScheduleNew();
             // IsUpdate가 False면 신규, True면 수정
             IsUpdate = false;
-
-            CanSave = true;
-            CanRemove = false;  // 이게 없으면 수정후 신규를 눌러도 활성화 되어 있음.
         }
 
         #region View 버튼클릭 메서드
@@ -132,7 +156,7 @@ namespace WpfMrpSimulatorApp.ViewModels
             InitVariable();
             IsUpdate = false;  // DoubleCheck. 확실하게 동작을 하면 지워도 되는 로직
             CanSave = true; // 저장버튼 활성화
-        }
+        }        
 
         [RelayCommand]
         public async Task SaveData()
@@ -193,6 +217,7 @@ namespace WpfMrpSimulatorApp.ViewModels
                 {
                     conn.Open();
                     MySqlCommand cmd = new MySqlCommand(query, conn);
+
 
                     int resultCnt = cmd.ExecuteNonQuery(); // 삭제된 쿼리행수 리턴 1, 안지워졌으면 0
 
