@@ -10,13 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="config.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="config.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="mosquitto-logo-64.ico" />
   </ItemGroup>
 
@@ -37,6 +30,12 @@
 
   <ItemGroup>
     <Folder Include="Sqls\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="config.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

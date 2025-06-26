@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.RightsManagement;
 
 namespace WpfMrpSimulatorApp.Models;
 
@@ -15,7 +16,7 @@ public partial class ScheduleNew
     /// </summary>
     public string PlantCode { get; set; } = null!;
 
-    // 데이터그리드에 표현하려면 새로운 속성이 필요!!
+    // 데이터 그리드에 표현을하려면 새로운 속성이 필요!!
     public string PlantName { get; set; }
 
     /// <summary>
@@ -24,7 +25,7 @@ public partial class ScheduleNew
     public DateOnly SchDate { get; set; }
 
     /// <summary>
-    /// 로드타임(초)
+    /// 로드타임(몇초)
     /// </summary>
     public int LoadTime { get; set; }
 

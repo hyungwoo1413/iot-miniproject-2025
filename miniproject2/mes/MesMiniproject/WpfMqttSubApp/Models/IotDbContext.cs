@@ -5,13 +5,13 @@ using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 
 namespace WpfMqttSubApp.Models;
 
-public partial class IotDbContext : DbContext
+public partial class IoTDbContext : DbContext
 {
-    public IotDbContext()
+    public IoTDbContext()
     {
     }
 
-    public IotDbContext(DbContextOptions<IotDbContext> options)
+    public IoTDbContext(DbContextOptions<IoTDbContext> options)
         : base(options)
     {
     }
@@ -64,7 +64,7 @@ public partial class IotDbContext : DbContext
             entity.Property(e => e.PrcFacilityId)
                 .HasMaxLength(8)
                 .IsFixedLength()
-                .HasComment("실제 공정장비아이디")
+                .HasComment("실제 공정장비ID")
                 .HasColumnName("prcFacilityId");
             entity.Property(e => e.PrcLoadTime)
                 .HasComment("실제 로드타임")
@@ -98,7 +98,7 @@ public partial class IotDbContext : DbContext
                 .HasComment("공정계획 순번(자동증가)")
                 .HasColumnName("schIdx");
             entity.Property(e => e.LoadTime)
-                .HasComment("로드타임(초)")
+                .HasComment("로드타임(몇초)")
                 .HasColumnName("loadTime");
             entity.Property(e => e.ModDt)
                 .HasComment("수정일")
