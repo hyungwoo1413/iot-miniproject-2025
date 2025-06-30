@@ -13,6 +13,9 @@
     <None Remove="Resources\belt.png" />
     <None Remove="Resources\gear.png" />
     <None Remove="Resources\sensor.png" />
+    <None Remove="Views\belt.png" />
+    <None Remove="Views\gear.png" />
+    <None Remove="Views\sensor.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,15 +31,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\belt.png">
+    <EmbeddedResource Include="Resources\belt.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\gear.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\gear.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\sensor.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\sensor.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Views\belt.png" />
+    <Resource Include="Views\gear.png" />
+    <Resource Include="Views\sensor.png" />
   </ItemGroup>
 
 </Project>
