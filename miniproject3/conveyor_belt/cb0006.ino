@@ -17,13 +17,12 @@ const char* WIFI_PASS = "Pknu5234*!";
 
 const char* MQTT_HOST = "210.119.12.52";
 const int   MQTT_PORT = 1883;
-const char* MQTT_TOPIC = "pknu/sf52/data"; // 미니프로젝트2에 사용한 토픽
-const char* CLIENT_ID  = "IOT01";   // 미니프로젝트2 클라이언트아이디
+const char* MQTT_TOPIC = "pknu/sf52/data";
+const char* CLIENT_ID  = "IOT01";
 
 WiFiClient wifiClient;
 MqttClient mqttClient(wifiClient);
 
-// 정확한 현재 시간가져오는 소스
 /*** ====== NTP(Time) ====== ***/
 WiFiUDP ntpUDP;
 const char* NTP_SERVER = "pool.ntp.org";
@@ -99,6 +98,21 @@ const int MOTOR_DIR  = 12; // 모터 방향
 #define S2 8
 #define S3 5
 #define OUT_PIN 6
+
+/*** ====== [BUZZER] ====== ***/
+const int BUZZER_PIN = 4; // 패시브 부저 핀
+void buzzOK() {           // OK: 삑 1번
+  tone(BUZZER_PIN, 2000, 150);
+  delay(200);
+  noTone(BUZZER_PIN);
+}
+void buzzFAIL() {         // FAIL: 삑삑 2번
+  for (int i=0;i<2;i++){
+    tone(BUZZER_PIN, 1200, 150);
+    delay(220);
+    noTone(BUZZER_PIN);
+  }
+}
 
 /*** ====== Params ====== ***/
 const int RUN_SPEED = 90;                 // 0~255
@@ -216,6 +230,10 @@ void mqttPublish(const char* topic, const char* payload) {
 void publishFinalResult(int lastCode) {
   const char* result = (lastCode == 3) ? "OK" : ((lastCode == 1) ? "FAIL" : "FAIL");
 
+  // [BUZZER] 결과에 따른 부저 알림
+  if (lastCode == 3) buzzOK();
+  else               buzzFAIL();
+
   char ts[24]; ts[0] = '\0';
   unsigned long nowEpoch = currentEpoch();
   formatTimestamp(ts, sizeof(ts), nowEpoch);
@@ -265,6 +283,10 @@ void setup() {
   pinMode(S2, OUTPUT); pinMode(S3, OUTPUT);
   pinMode(OUT_PIN, INPUT);
   setScale20(); // 20%
+
+  // [BUZZER]
+  pinMode(BUZZER_PIN, OUTPUT);
+  digitalWrite(BUZZER_PIN, LOW);
 
   // WiFi / MQTT / NTP
   connectWiFi();
