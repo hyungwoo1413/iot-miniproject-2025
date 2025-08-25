@@ -150,7 +150,6 @@ protocol websockets
 
 [소스](./pythonAi/step3/main01.py)
 
-<img src="../image/mp0023.jpg" width="600">
 
 ##### 동영상
 
@@ -167,7 +166,6 @@ protocol websockets
 
 웹캠 결과화면
 
-<img src="../image/mp0025.jpg" width="700">
 
 동영상 결과화면
 
