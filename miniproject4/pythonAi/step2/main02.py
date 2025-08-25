@@ -12,7 +12,7 @@ import cv2   # OpenCV
 
 app = FastAPI()
 
-model = YOLO('yolov8n.pt')  # YOLOv8 pretrained model(웹상에 존재, 최초에 다운로드)
+model = YOLO('yolov8m.pt')  # YOLOv8 pretrained model(웹상에 존재, 최초에 다운로드)
 
 # 웹상으로 전달할 BaseModel기반 클래스 생성
 class DetectionResult(BaseModel):

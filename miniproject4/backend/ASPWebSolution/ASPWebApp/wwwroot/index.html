@@ -16,11 +16,11 @@
             <form method="post" enctype="multipart/form-data" id="fileUploadForm">
                 <div class="mb-2">
                     <label for="message" id="returnMsg" class="form-label">메세지</label>
-                    <input type="text" id="message" class="form-control" placeholder="메시지 입력 요망" />
+                    <input type="text" id="message" name="message" class="form-control" placeholder="메시지 입력 요망" />
                 </div>
                 <div class="mb-2">
-                    <label form="imgFile" class="form-label">이미지파일 선택</label>
-                    <input type="file" id="imgFile" class="form-control" />
+                    <label for="file" class="form-label">이미지파일 선택</label>
+                    <input type="file" id="file" name="file" class="form-control" />
                 </div>
                 <div class="mb-2 d-flex justify-content-end">
                     <input type="button" class="btn btn-success" value="비동기 요청" />
@@ -40,7 +40,7 @@
 
             // TODO : 파일을 선택안했을 때 Validation check
             var message = document.getElementById("message").value.trim();
-            var file = document.getElementById("imgFile").files[0];
+            var file = document.getElementById("file").files[0];
 
             if (!message || !file) {
                 alert("메시지를 입력하거나 파일을 선택하세요", "검증오류");
